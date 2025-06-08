@@ -1,69 +1,73 @@
-I want to build a serverless AI agent application for personalized Stock analysis 
+# Social Media Platform Requirements
 
-**1. Requirement Analysis**
+## Functional Requirements
+- User profiles with personal information beyond username/password
+- Short-form content sharing (280 characters) with media attachments (images, videos, GIFs)
+- Public follow system for users
+- Chronological feed of posts from followed users
+- Reposting with the ability to add comments
+- Post liking functionality
+- Threaded conversation replies
+- Trending topics via hashtags
+- Direct messaging (both one-to-one and group conversations)
+- Real-time updates and engagement metrics (view counts, interaction statistics)
 
-- Define core functionalities:
-    - Pull stock prices and news (use dummy data sources initially).
-    - Analyze data using Claude AI model via Amazon Bedrock.
-    - Send personalized daily insights via email.
-    - Implement subscription management with subscribe/unsubscribe flows.
-    - Store subscription details in DynamoDB.
-    - Automate infrastructure deployment via Terraform.
-- Identify user interaction points:
-    - Frontend React app for subscription management.
-- Define scheduling mechanism for daily notifications using EventBridge.
+## Non-Functional Requirements
+- Scalability to support 10,000 users in the first year with 500 user growth projections
+- Security implementation including 2FA
+- GDPR compliance for data privacy
+- Clean interface emphasizing real-time updates
 
-**2. System Design**
+## User Experience
+- Web platform initially
+- English language support only at launch
+- Clean interface emphasizing real-time updates and engagement metrics
 
-- Architecture:
-    - Frontend: React app interfacing with API Gateway.
-    - Backend: AWS Lambda functions (Python) for processing user inputs and invoking Claude model.
-    - Data Storage: DynamoDB for subscription details.
-    - AI Integration: Claude model accessed through Amazon Bedrock.
-    - Scheduling: EventBridge to trigger daily Lambda for sending insights.
-    - Infrastructure as Code: Terraform scripts for provisioning all AWS resources.
-- Data Flow:
-    - User subscribes/unsubscribes via React → API Gateway → Lambda → DynamoDB.
-    - Scheduled Lambda fetches stock data/news (dummy), invokes Claude for analysis, sends emails.
-- Security \& Compliance:
-    - Secure API endpoints.
-    - Manage unsubscribe flow to comply with email regulations.
+## Technical Constraints
+- Serverless architecture
+- Third-party service integrations for authentication and analytics
+- AWS hosting and deployment
 
-**3. Implementation**
+## Business Context
+- Key success metrics: number of users and platform speed
+- Development and launch timeline: 2 months
+- No specific budget constraints
 
-- Develop React frontend with forms for subscription/un-subscription.
-- Implement Lambda functions in Python:
-    - Handler for subscription management.
-    - Handler for scheduled daily insight generation.
-- Integrate Lambda with Amazon Bedrock to call Claude model.
-- Use dummy stock price/news data sources during development.
-- Write Terraform scripts to provision:
-    - API Gateway
-    - Lambda functions
-    - DynamoDB tables
-    - EventBridge rules
-    - IAM roles and permissions
+## AWS Serverless Architecture
 
-**4. Testing**
+### Frontend
+- **Amazon S3** for static web hosting
+- **Amazon CloudFront** for content delivery
+- **AWS Amplify** for frontend framework integration
 
-- Unit test Lambda functions locally and in AWS.
-- End-to-end tests for subscription flow via API Gateway and React frontend.
-- Test scheduled daily insight delivery with dummy data.
-- Validate unsubscribe functionality and data persistence in DynamoDB.
-- Load and scalability testing for concurrent subscriptions and notifications.
+### Backend Services
+- **AWS Lambda** for serverless compute functions:
+  - User management
+  - Post creation/retrieval
+  - Feed generation
+  - Notification system
+  - Direct messaging
+  - Analytics processing
+- **Amazon API Gateway** for RESTful API endpoints
+- **Amazon Cognito** for user authentication and 2FA
+- **AWS AppSync** (GraphQL) for real-time updates
 
-**5. Deployment**
+### Data Storage
+- **Amazon DynamoDB** for user profiles, posts, and relationships
+- **Amazon ElastiCache** for caching frequently accessed data
+- **Amazon S3** for media storage (images, videos, GIFs)
 
-- Use Terraform to deploy infrastructure to AWS.
-- Deploy Lambda functions and configure triggers.
-- Set up EventBridge rule for daily scheduled Lambda invocation.
-- Monitor deployment logs and metrics for issues.
+### Real-time Features
+- **AWS AppSync** for real-time updates to feeds and notifications
+- **Amazon Kinesis** for processing activity streams and analytics
 
-**6. Maintenance**
+### Analytics & Monitoring
+- **Amazon CloudWatch** for monitoring and performance metrics
+- **AWS Lambda** with Amazon Kinesis for real-time analytics processing
+- **Amazon QuickSight** for business analytics dashboards
 
-- Monitor system health and logs.
-- Update AI model integration as needed.
-- Enhance data sources from dummy to real APIs.
-- Manage subscription database and email delivery compliance.
-- Iterate on features based on user feedback.
-
+### GDPR Compliance
+- **Amazon Cognito** for user consent management
+- **AWS IAM** for fine-grained access control
+- **AWS KMS** for encryption of sensitive data
+- **Amazon S3** lifecycle policies for data retention management
